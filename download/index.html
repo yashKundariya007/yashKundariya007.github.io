@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="only light">
+<meta name="theme-color" content="#6B3A5E">
+<meta name="robots" content="noindex, nofollow">
+<!-- The personal token is in the URL: never send it to other sites as a referrer -->
+<meta name="referrer" content="no-referrer">
+<title>Your downloads · Garbhamantra</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lora:wght@400;500&family=Poppins:wght@300;400;500&display=swap">
+<link rel="stylesheet" href="/policy.css">
+<style>
+.lead{color:var(--muted);margin-top:10px}
+.books{list-style:none;padding:0;margin:24px 0 0;display:grid;gap:12px}
+.books li{display:flex;align-items:center;justify-content:space-between;gap:14px;border:1px solid var(--line);border-radius:16px;padding:14px 16px;margin:0}
+.books .t{font-family:var(--display);color:var(--plum);font-size:1.05rem;line-height:1.3}
+.books .m{font-size:.8rem;color:var(--muted)}
+.dl{flex:none;font:inherit;font-size:.9rem;font-weight:500;border:0;border-radius:999px;padding:10px 18px;background:var(--plum);color:#fff;cursor:pointer;min-width:112px}
+.dl:hover{background:var(--plum-deep)}
+.dl:disabled{background:var(--line);color:var(--muted);cursor:default}
+.dl:focus-visible{outline:3px solid var(--gold);outline-offset:3px}
+.note{font-size:.86rem;color:var(--muted);margin-top:20px}
+.msg{margin-top:24px}
+.err{color:var(--rose)}
+@media (max-width:420px){.books li{flex-direction:column;align-items:stretch}.dl{width:100%}}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><symbol id="lotus" viewBox="0 0 64 48"><g fill="#F2C4CE" fill-opacity=".85" stroke="#6B3A5E" stroke-width="1.6" stroke-linejoin="round"><path d="M32 42 C14 40 6 30 4 22 C14 22 24 30 32 42Z"/><path d="M32 42 C50 40 58 30 60 22 C50 22 40 30 32 42Z"/><path d="M32 42 C20 36 14 24 16 12 C24 18 30 28 32 42Z"/><path d="M32 42 C44 36 50 24 48 12 C40 18 34 28 32 42Z"/><path d="M32 42 C24 32 24 14 32 4 C40 14 40 32 32 42Z"/></g><path d="M14 45 H50" stroke="#6B3A5E" stroke-width="1.6" stroke-linecap="round"/></symbol></svg>
+<div class="wrap">
+  <nav class="nav" aria-label="Main">
+    <a class="brand" href="/"><svg width="38" height="29"><use href="#lotus"/></svg><span class="brand-name">Garbhamantra</span></a>
+  </nav>
+  <main>
+    <h1 id="h">Your books</h1>
+    <p class="lead" id="lead">Loading your downloads…</p>
+    <ul class="books" id="books" hidden></ul>
+    <div class="note" id="note" hidden>
+      <p>Each book can be downloaded up to <b>5 times</b>. Save the files somewhere safe; once saved, they're yours to keep.</p>
+      <p>On iPhone, the book opens in a new view: tap the share icon, then <b>Save to Files</b>.</p>
+      <p>Problem with a file? Email <a href="mailto:hello@garbhamantra.com">hello@garbhamantra.com</a> with your order number.</p>
+    </div>
+    <div class="msg" id="msg" hidden></div>
+  </main>
+</div>
+<footer>
+  <div class="wrap">
+    <nav class="policy-links" aria-label="Policies">
+      <a href="/terms/">Terms of Use</a>
+      <a href="/privacy/">Privacy Policy</a>
+      <a href="/refund/">Refund &amp; Cancellation</a>
+      <a href="/delivery/">Delivery Policy</a>
+      <a href="/contact/">Contact Us</a>
+    </nav>
+    <p>© 2026 Garbhamantra · <a href="mailto:hello@garbhamantra.com">hello@garbhamantra.com</a></p>
+  </div>
+</footer>
+<script>
+const API = "https://yndfojrgszjgljcllxvn.supabase.co/functions/v1/get-download";
+const token = new URLSearchParams(location.search).get("t") || "";
+const $ = id => document.getElementById(id);
+const help = n => `Please email <a href="mailto:hello@garbhamantra.com?subject=Download%20help${n ? "%20GM-" + n : ""}">hello@garbhamantra.com</a>${n ? " with your order number <b>GM-" + n + "</b>" : " from the address you used at checkout"} and we'll send you a fresh link.`;
+
+function fail(title, html) {
+  $("h").textContent = title;
+  $("lead").innerHTML = html;
+  $("books").hidden = true;
+  $("note").hidden = true;
+}
+
+const left = n => n === 1 ? "1 download left" : `${n} downloads left`;
+
+async function load() {
+  if (token.length < 20) return fail("Link not found", "This download link looks incomplete. Open it again from your order email. " + help());
+  let r, d;
+  try { r = await fetch(`${API}?t=${encodeURIComponent(token)}`); d = await r.json(); }
+  catch { return fail("Can't connect", "Please check your internet connection and reload this page."); }
+  if (r.status === 410) return fail("This link has expired", "Download links work for 30 days. " + help(d.number));
+  if (!r.ok) return fail("Link not found", "We couldn't find this download link. Open it again from your order email. " + help());
+
+  const until = new Date(d.expires).toLocaleDateString("en-IN", { day: "numeric", month: "long", year: "numeric" });
+  $("h").textContent = d.name ? `Your books, ${d.name.split(" ")[0]}` : "Your books";
+  $("lead").innerHTML = `Order <b>GM-${d.number}</b> · this personal link works until <b>${until}</b>.`;
+  const ul = $("books");
+  ul.innerHTML = "";
+  for (const f of d.files) {
+    const li = document.createElement("li");
+    li.innerHTML = `<div><div class="t"></div><div class="m"></div></div><button class="dl" type="button">Download</button>`;
+    li.querySelector(".t").textContent = f.title;
+    const meta = li.querySelector(".m"), btn = li.querySelector(".dl");
+    const show = n => { meta.textContent = (f.pages ? f.pages + " pages · " : "") + left(n); btn.disabled = n <= 0; if (n <= 0) btn.textContent = "Limit reached"; };
+    show(f.remaining);
+    btn.addEventListener("click", () => get(f, btn, show));
+    ul.appendChild(li);
+  }
+  ul.hidden = false;
+  $("note").hidden = false;
+}
+
+async function get(f, btn, show) {
+  btn.disabled = true;
+  btn.textContent = "Preparing…";
+  try {
+    const r = await fetch(`${API}?t=${encodeURIComponent(token)}&f=${encodeURIComponent(f.file)}`);
+    const d = await r.json();
+    if (r.status === 429) { show(0); return; }
+    if (!r.ok || !d.url) throw new Error(d.error || r.status);
+    show(d.remaining);
+    btn.textContent = "Download again";
+    btn.disabled = d.remaining <= 0;
+    location.href = d.url;   // signed URL, valid 10 minutes, served as an attachment
+  } catch {
+    btn.disabled = false;
+    btn.textContent = "Try again";
+    $("msg").hidden = false;
+    $("msg").innerHTML = `<p class="err">That download didn't start. Please try again. If it keeps failing, ${help().charAt(0).toLowerCase() + help().slice(1)}</p>`;
+  }
+}
+
+load();
+</script>
+</body>
+</html>
