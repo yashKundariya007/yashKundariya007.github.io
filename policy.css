@@ -1,0 +1,44 @@
+/* Shared styles for the policy pages (terms, privacy, refund, delivery, contact).
+   Same tokens as index.html, single light theme to match the printed books. */
+:root{
+  --cream:#FFF8F2; --paper:#FFFFFF; --blush:#F2C4CE; --blush-soft:#FBE7EC;
+  --rose:#C46F8A; --plum:#6B3A5E; --plum-deep:#4E2744; --ink:#4A3346; --muted:#7D6677;
+  --sage-deep:#6E8A66; --gold:#D8B57A; --line:#EAD7DD;
+  --display:"Lora",Georgia,"Times New Roman",serif;
+  --body:"Poppins",system-ui,-apple-system,"Segoe UI",sans-serif;
+  color-scheme:only light;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--cream);color:var(--ink);font-family:var(--body);font-weight:300;font-size:16px;line-height:1.7;-webkit-font-smoothing:antialiased}
+a{color:var(--plum)}
+.wrap{max-width:760px;margin-inline:auto;padding-inline:20px}
+.nav{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-block:18px}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none}
+.brand-name{font-family:var(--display);font-size:1.35rem;color:var(--plum);letter-spacing:.04em}
+.back{font-size:.88rem;text-decoration:none;border:1px solid var(--blush);border-radius:999px;padding:8px 16px;white-space:nowrap}
+.back:hover{background:var(--blush-soft)}
+main{background:var(--paper);border:1px solid var(--line);border-radius:28px;padding:44px 36px;margin-block:12px 40px}
+h1,h2{font-family:var(--display);color:var(--plum);font-weight:500;line-height:1.2;margin:0;text-wrap:balance}
+h1{font-size:clamp(1.9rem,5vw,2.6rem)}
+h2{font-size:1.3rem;margin-top:34px;margin-bottom:8px}
+p,ul,ol{margin:0 0 12px}
+ul,ol{padding-left:1.3em}
+li{margin-bottom:6px}
+strong{font-weight:500;color:var(--plum)}
+.updated{color:var(--muted);font-size:.86rem;margin-top:8px}
+.summary{background:var(--blush-soft);border:1.5px dashed var(--rose);border-radius:18px;padding:16px 20px;margin-top:24px}
+.summary p:last-child{margin-bottom:0}
+dl{display:grid;grid-template-columns:max-content 1fr;gap:8px 20px;margin:0}
+dt{color:var(--muted)}
+dd{margin:0}
+footer{padding-block:0 60px;font-size:.84rem;color:var(--muted);text-align:center}
+.policy-links{display:flex;flex-wrap:wrap;justify-content:center;gap:6px 18px;margin-bottom:12px}
+.policy-links a{color:var(--muted)}
+.policy-links a[aria-current]{color:var(--plum);font-weight:500}
+a:focus-visible{outline:3px solid var(--gold);outline-offset:3px}
+@media (max-width:520px){
+  main{padding:32px 20px;border-radius:22px}
+  dl{grid-template-columns:1fr;gap:2px}
+  dd{margin-bottom:10px}
+}
+@media (max-width:420px){.back .long{display:none}}
