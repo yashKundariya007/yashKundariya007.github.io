@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="only light">
+<meta name="theme-color" content="#6B3A5E">
+<meta name="robots" content="noindex, nofollow">
+<meta name="referrer" content="no-referrer">
+<title>Thank you · Garbhamantra</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;1,400&family=Poppins:wght@300;400;500&display=swap">
+<link rel="stylesheet" href="/policy.css">
+<style>
+/* Thank-you page after a Razorpay payment: same tokens as policy.css, a warmer centred layout. */
+main{text-align:center;padding:52px 32px 40px;position:relative;overflow:hidden}
+main::before,main::after{content:"";position:absolute;border-radius:50%;z-index:0;pointer-events:none}
+main::before{width:260px;height:240px;background:var(--blush-soft);top:-120px;left:-110px}
+main::after{width:220px;height:200px;background:#EEF3EA;bottom:-110px;right:-90px}
+main > *{position:relative;z-index:1}
+.tick{width:84px;height:84px;margin:0 auto 18px;border-radius:50%;background:var(--plum);display:grid;place-items:center;box-shadow:0 14px 28px -12px rgba(107,58,94,.6);animation:pop .5s cubic-bezier(.2,1.4,.4,1) both}
+@keyframes pop{from{transform:scale(.4);opacity:0}}
+h1{font-size:clamp(2rem,6vw,2.8rem)}
+h1 em{font-style:italic;color:var(--rose)}
+.lead{color:var(--muted);font-size:1.06rem;max-width:44ch;margin:12px auto 0}
+.pid{display:inline-block;margin-top:16px;font-size:.84rem;color:var(--muted);background:var(--cream);border:1px solid var(--line);border-radius:999px;padding:6px 14px}
+.pid b{color:var(--plum);font-weight:500;font-variant-numeric:tabular-nums}
+.steps{list-style:none;padding:0;margin:34px 0 0;display:grid;gap:12px;text-align:left;counter-reset:s}
+.steps li{display:grid;grid-template-columns:40px 1fr;gap:14px;align-items:start;background:var(--paper);border:1px solid var(--line);border-radius:18px;padding:16px 18px;margin:0}
+.steps li::before{counter-increment:s;content:counter(s);width:40px;height:40px;border-radius:50%;background:var(--blush-soft);color:var(--plum);font-family:var(--display);font-size:1.15rem;display:grid;place-items:center}
+.steps b{display:block;font-family:var(--display);font-weight:500;color:var(--plum);font-size:1.08rem;margin-bottom:2px}
+.steps span{font-size:.92rem;color:var(--muted)}
+.help{margin-top:22px;background:var(--blush-soft);border:1.5px dashed var(--rose);border-radius:18px;padding:16px 20px;text-align:left;font-size:.92rem}
+.help p{margin:0 0 6px}.help p:last-child{margin:0}
+.calm{margin-top:34px;padding-top:26px;border-top:1px solid var(--line)}
+.calm .eyebrow{font-size:.72rem;font-weight:500;letter-spacing:.22em;text-transform:uppercase;color:var(--sage-deep)}
+.calm blockquote{margin:10px auto 0;max-width:34ch;font-family:var(--display);font-style:italic;font-size:1.25rem;color:var(--plum);line-height:1.5}
+.home{display:inline-flex;margin-top:28px;font-size:.92rem;text-decoration:none;border:1px solid var(--blush);border-radius:999px;padding:10px 20px}
+.home:hover{background:var(--blush-soft)}
+@media (prefers-reduced-motion:reduce){.tick{animation:none}}
+@media (max-width:520px){main{padding:40px 18px 32px}}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><symbol id="lotus" viewBox="0 0 64 48"><g fill="#F2C4CE" fill-opacity=".85" stroke="#6B3A5E" stroke-width="1.6" stroke-linejoin="round"><path d="M32 42 C14 40 6 30 4 22 C14 22 24 30 32 42Z"/><path d="M32 42 C50 40 58 30 60 22 C50 22 40 30 32 42Z"/><path d="M32 42 C20 36 14 24 16 12 C24 18 30 28 32 42Z"/><path d="M32 42 C44 36 50 24 48 12 C40 18 34 28 32 42Z"/><path d="M32 42 C24 32 24 14 32 4 C40 14 40 32 32 42Z"/></g><path d="M14 45 H50" stroke="#6B3A5E" stroke-width="1.6" stroke-linecap="round"/></symbol></svg>
+<div class="wrap">
+  <nav class="nav" aria-label="Main">
+    <a class="brand" href="/"><svg width="38" height="29"><use href="#lotus"/></svg><span class="brand-name">Garbhamantra</span></a>
+  </nav>
+  <main>
+    <div class="tick" aria-hidden="true"><svg width="40" height="40" viewBox="0 0 40 40"><path d="M11 21l6 6 13-14" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    <h1>Thank you, <em>mama</em></h1>
+    <p class="lead">Your payment was successful. Your books are on their way to your email.</p>
+    <p class="pid" id="pid" hidden>Payment ID: <b id="pidv"></b></p>
+
+    <ol class="steps">
+      <li><div><b>Check your inbox</b><span>An email from <strong>hello@garbhamantra.com</strong> titled "Your Garbhamantra books are ready" usually arrives within a few minutes.</span></div></li>
+      <li><div><b>Open your personal link</b><span>Tap <strong>Download your books</strong> in the email. The link works for 30 days, with up to 5 downloads of each book.</span></div></li>
+      <li><div><b>Save, print or colour</b><span>Save the PDFs to your phone or computer. Print any page on A4 as often as you like, or colour on a tablet.</span></div></li>
+    </ol>
+
+    <div class="help">
+      <p><strong>Don't see it?</strong> Please check your Spam and Promotions folders.</p>
+      <p>Still nothing after 30 minutes? Email <a href="mailto:hello@garbhamantra.com" id="mail">hello@garbhamantra.com</a> with the email address you used at checkout<span id="mailpid"></span>, and we'll send it straight away.</p>
+    </div>
+
+    <div class="calm">
+      <span class="eyebrow">While you wait</span>
+      <blockquote>"I am calm. My baby feels my calm."</blockquote>
+    </div>
+
+    <a class="home" href="/">← Back to Garbhamantra</a>
+  </main>
+</div>
+<footer>
+  <div class="wrap">
+    <nav class="policy-links" aria-label="Policies">
+      <a href="/terms/">Terms of Use</a>
+      <a href="/privacy/">Privacy Policy</a>
+      <a href="/refund/">Refund &amp; Cancellation</a>
+      <a href="/delivery/">Delivery Policy</a>
+      <a href="/contact/">Contact Us</a>
+    </nav>
+    <p>© 2026 Garbhamantra, a brand of Rayherb Ayurveda · <a href="mailto:hello@garbhamantra.com">hello@garbhamantra.com</a></p>
+  </div>
+</footer>
+<script>
+// Razorpay may append the payment id to the redirect URL; show it so the buyer can quote it.
+const q = new URLSearchParams(location.search);
+const pid = q.get("razorpay_payment_id") || q.get("payment_id") || "";
+if (/^pay_[A-Za-z0-9]{6,30}$/.test(pid)) {
+  document.getElementById("pidv").textContent = pid;
+  document.getElementById("pid").hidden = false;
+  document.getElementById("mailpid").textContent = " and your payment ID (" + pid + ")";
+  document.getElementById("mail").href = "mailto:hello@garbhamantra.com?subject=" + encodeURIComponent("Books not received, " + pid);
+}
+</script>
+</body>
+</html>
