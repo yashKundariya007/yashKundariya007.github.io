@@ -12,6 +12,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lora:wght@400;500&family=Poppins:wght@300;400;500&display=swap">
 <link rel="stylesheet" href="/policy.css">
+<script src="/consent.js" defer></script>
 </head>
 <body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true"><symbol id="lotus" viewBox="0 0 64 48"><g fill="#F2C4CE" fill-opacity=".85" stroke="#6B3A5E" stroke-width="1.6" stroke-linejoin="round"><path d="M32 42 C14 40 6 30 4 22 C14 22 24 30 32 42Z"/><path d="M32 42 C50 40 58 30 60 22 C50 22 40 30 32 42Z"/><path d="M32 42 C20 36 14 24 16 12 C24 18 30 28 32 42Z"/><path d="M32 42 C44 36 50 24 48 12 C40 18 34 28 32 42Z"/><path d="M32 42 C24 32 24 14 32 4 C40 14 40 32 32 42Z"/></g><path d="M14 45 H50" stroke="#6B3A5E" stroke-width="1.6" stroke-linecap="round"/></symbol></svg>
@@ -49,11 +50,15 @@
 <li><strong>Supabase</strong>: our order database and file storage;</li>
 <li><strong>Hostinger Email</strong>: our inbox and order emails;</li>
 <li><strong>GitHub Pages</strong>: hosting this website.</li>
+<li><strong>Meta Platforms</strong>: measuring our Facebook and Instagram ads, only if you accept cookies.</li>
 </ul>
 <p>Some of these providers store data outside India. We may also disclose data if the law requires it.</p>
 
-<h2>Cookies and tracking</h2>
-<p>This website sets no cookies and uses no analytics or advertising trackers. It saves one small value in your browser (<code>gm_bonus_start</code>) to remember when your 90-minute bonus window started. Our fonts load from Google Fonts, which means your browser connects to Google's servers.</p>
+<h2 id="cookies">Cookies and tracking</h2>
+<p><strong>Meta Pixel, only with your permission.</strong> We advertise on Facebook and Instagram. To see which ads bring visitors and orders, we use the Meta Pixel from Meta Platforms. It only loads after you tap <strong>Accept</strong> on the cookie notice. If you tap <strong>Decline</strong>, it never loads and nothing is sent to Meta.</p>
+<p>If you accept, the Pixel sets cookies and sends Meta: the pages you visit on this site, when you tap a buy button, and, on our thank-you page, that a purchase happened and its value. Meta also receives technical details such as your browser, device and IP address. We do <strong>not</strong> send Meta your name, email, phone number or payment details. Meta's own use of this data is described in its privacy policy.</p>
+<p>You can change your choice at any time with the <strong>Cookie settings</strong> link at the bottom of each page. Our download page never loads the Pixel.</p>
+<p>The site also saves two small values in your browser: when your 90-minute bonus window started (<code>gm_bonus_start</code>) and your cookie choice (<code>gm_consent</code>). Our fonts load from Google Fonts, which means your browser connects to Google's servers.</p>
 
 <h2>How long we keep it</h2>
 <p>Order records are kept as long as Indian tax and accounting law requires, usually up to 8 years. Download logs are kept for 12 months. Emails to our inbox are kept for as long as they're useful for helping you.</p>
@@ -73,6 +78,7 @@
       <a href="/refund/">Refund & Cancellation Policy</a>
       <a href="/delivery/">Delivery Policy</a>
       <a href="/contact/">Contact Us</a>
+      <a href="#" onclick="gmCookieSettings();return false">Cookie settings</a>
     </nav>
     <p>© 2026 Garbhamantra, a brand of Rayherb Ayurveda · <a href="mailto:hello@garbhamantra.com">hello@garbhamantra.com</a></p>
   </div>

@@ -81,10 +81,12 @@ h1 em{font-style:italic;color:var(--rose)}
       <a href="/refund/">Refund &amp; Cancellation</a>
       <a href="/delivery/">Delivery Policy</a>
       <a href="/contact/">Contact Us</a>
+      <a href="#" onclick="gmCookieSettings();return false">Cookie settings</a>
     </nav>
     <p>© 2026 Garbhamantra, a brand of Rayherb Ayurveda · <a href="mailto:hello@garbhamantra.com">hello@garbhamantra.com</a></p>
   </div>
 </footer>
+<script src="/consent.js"></script>
 <script>
 // Razorpay may append the payment id to the redirect URL; show it so the buyer can quote it.
 const q = new URLSearchParams(location.search);
@@ -95,6 +97,15 @@ if (/^pay_[A-Za-z0-9]{6,30}$/.test(pid)) {
   document.getElementById("mailpid").textContent = " and your payment ID (" + pid + ")";
   document.getElementById("mail").href = "mailto:hello@garbhamantra.com?subject=" + encodeURIComponent("Books not received, " + pid);
 }
+
+// Meta Pixel Purchase (sent only with cookie consent), once per payment even if the page is reloaded.
+// Value is the bundle price: the redirect doesn't say which ₹149 add-ons were ticked.
+(function () {
+  const key = "gm_purchase_" + (pid || "nopid");
+  let seen = false;
+  try { seen = !!(pid ? localStorage : sessionStorage).getItem(key); (pid ? localStorage : sessionStorage).setItem(key, "1"); } catch (e) {}
+  if (!seen && window.gmTrack) gmTrack("Purchase", { value: 299, currency: "INR", content_name: "Garbhamantra 7-book bundle" }, pid || undefined);
+})();
 </script>
 </body>
 </html>

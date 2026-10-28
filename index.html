@@ -581,6 +581,7 @@ html{scroll-padding-top:64px}
       <a href="/refund/">Refund &amp; Cancellation</a>
       <a href="/delivery/">Delivery Policy</a>
       <a href="/contact/">Contact Us</a>
+      <a href="#" onclick="gmCookieSettings();return false">Cookie settings</a>
     </nav>
     <p class="disclaimer">© <span id="yr">2026</span> Garbhamantra, a brand of Rayherb Ayurveda. Digital product for personal use. These activities support relaxation and wellbeing and are not a substitute for medical advice. This site is not part of or endorsed by Meta, Facebook or Instagram.</p>
   </div>
@@ -591,6 +592,7 @@ html{scroll-padding-top:64px}
   <a class="btn btn-primary" data-buy href="#offer">Get the books</a>
 </div>
 
+<script src="/consent.js"></script>
 <script>
 /* ============ EDIT THESE BEFORE GOING LIVE ============ */
 const CONFIG = {
@@ -658,6 +660,13 @@ function tick() {
 }
 tick();
 document.getElementById("yr").textContent = new Date().getFullYear();
+
+/* Meta Pixel (only sends after cookie consent, see /consent.js): a buy button that opens Razorpay */
+document.addEventListener("click", e => {
+  const a = e.target.closest("[data-buy]");
+  if (a && /rzp\.io|razorpay/.test(a.href) && window.gmTrack)
+    gmTrack("InitiateCheckout", { value: CONFIG.price, currency: "INR", content_name: "Garbhamantra 7-book bundle" });
+});
 
 /* gallery arrows */
 const track = document.getElementById("track");
