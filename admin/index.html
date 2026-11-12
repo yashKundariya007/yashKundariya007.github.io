@@ -1,0 +1,874 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Garbhamantra Admin</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lora:wght@500;600&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --cream:#FFF8F2; --paper:#FFFFFF; --blush:#F2C4CE; --blush-soft:#FBE7EC; --rose:#C46F8A;
+  --plum:#6B3A5E; --plum-deep:#4E2744; --ink:#4A3346; --muted:#7D6677; --sage:#A9BFA0;
+  --sage-soft:#EEF3EB; --sage-deep:#5E7A57; --gold:#D8B57A; --gold-soft:#FBF3E4; --line:#EAD7DD;
+  --red:#A8322A; --red-soft:#FCEBE9;
+  --display:"Lora",Georgia,"Times New Roman",serif;
+  --body:"Poppins",system-ui,-apple-system,"Segoe UI",sans-serif;
+  color-scheme:only light;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--cream);color:var(--ink);font:300 15px/1.55 var(--body);-webkit-font-smoothing:antialiased}
+h1,h2,h3{font-family:var(--display);color:var(--plum);font-weight:500;line-height:1.25;margin:0}
+h1{font-size:1.45rem} h2{font-size:1.25rem} h3{font-size:1.02rem}
+a{color:var(--plum)}
+button,input,select,textarea{font:inherit;color:inherit}
+.wrap{max-width:1240px;margin-inline:auto;padding-inline:16px}
+
+/* header + tabs */
+header{background:var(--paper);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:5}
+.top{display:flex;align-items:center;gap:12px;padding-block:12px;flex-wrap:wrap}
+.brand{font-family:var(--display);font-size:1.25rem;color:var(--plum);letter-spacing:.04em;margin-right:auto}
+.brand small{font-family:var(--body);font-size:.75rem;color:var(--muted);letter-spacing:.08em;margin-left:6px;text-transform:uppercase}
+.who{font-size:.8rem;color:var(--muted)}
+nav.tabs{display:flex;gap:4px;overflow-x:auto;padding-bottom:10px}
+nav.tabs button{border:0;background:none;padding:8px 14px;border-radius:999px;cursor:pointer;white-space:nowrap;color:var(--muted);font-weight:400}
+nav.tabs button[aria-current="page"]{background:var(--plum);color:#fff}
+nav.tabs button:not([aria-current="page"]):hover{background:var(--blush-soft);color:var(--plum)}
+main{padding-block:20px 60px}
+
+/* buttons, chips, forms */
+.btn{border:1px solid var(--blush);background:var(--paper);border-radius:999px;padding:7px 15px;cursor:pointer;font-size:.86rem;font-weight:400;white-space:nowrap;color:var(--plum)}
+.btn:hover{background:var(--blush-soft)}
+.btn.primary{background:var(--plum);border-color:var(--plum);color:#fff}
+.btn.primary:hover{background:var(--plum-deep)}
+.btn.good{background:var(--sage-deep);border-color:var(--sage-deep);color:#fff}
+.btn.danger{color:var(--red);border-color:#E7B9B4}
+.btn.danger:hover{background:var(--red-soft)}
+.btn.small{padding:4px 11px;font-size:.78rem}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.chip{display:inline-block;font-size:.7rem;font-weight:500;letter-spacing:.03em;text-transform:uppercase;border-radius:999px;padding:2px 9px;background:var(--blush-soft);color:var(--plum);white-space:nowrap}
+.chip.draft,.chip.idea{background:#F1ECEF;color:var(--muted)}
+.chip.approved,.chip.drafted{background:var(--sage-soft);color:var(--sage-deep)}
+.chip.publishing,.chip.scheduled{background:var(--gold-soft);color:#8A6A2E}
+.chip.posted{background:var(--plum);color:#fff}
+.chip.failed,.chip.rejected{background:var(--red-soft);color:var(--red)}
+.chip.cancelled{background:#F1ECEF;color:#A898A4;text-decoration:line-through}
+.chip.plat{background:none;border:1px solid var(--line);color:var(--muted)}
+label{display:block;font-size:.8rem;font-weight:400;color:var(--muted);margin-bottom:4px}
+input[type=text],input[type=email],input[type=date],input[type=time],select,textarea{width:100%;border:1px solid var(--line);border-radius:12px;padding:8px 11px;background:var(--paper);font-weight:300}
+textarea{resize:vertical;min-height:90px;line-height:1.5}
+input:focus,select:focus,textarea:focus{outline:2px solid var(--blush);border-color:var(--rose)}
+input:disabled,select:disabled,textarea:disabled{background:#FAF6F7;color:var(--muted)}
+.field{margin-bottom:12px}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.row > .field{flex:1 1 140px}
+.count{font-size:.75rem;color:var(--muted);text-align:right;margin-top:2px}
+.count.over{color:var(--red);font-weight:500}
+.muted{color:var(--muted)} .small{font-size:.82rem}
+.spacer{margin-left:auto}
+
+/* cards, panels */
+.panel{background:var(--paper);border:1px solid var(--line);border-radius:20px;padding:18px}
+.section{margin-bottom:22px}
+.section-head{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:12px}
+.alert{border-radius:14px;padding:11px 14px;margin-bottom:10px;font-size:.88rem;border:1px solid}
+.alert.warn{background:var(--gold-soft);border-color:#EBD6AE;color:#6E5320}
+.alert.bad{background:var(--red-soft);border-color:#EFC4BF;color:var(--red)}
+.alert.ok{background:var(--sage-soft);border-color:#D3E0CE;color:var(--sage-deep)}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-bottom:18px}
+.stat{background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:12px 14px}
+.stat b{display:block;font-family:var(--display);font-size:1.6rem;color:var(--plum);font-weight:500;line-height:1.2}
+.stat span{font-size:.78rem;color:var(--muted)}
+
+.pcard{display:flex;gap:10px;background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:8px;cursor:pointer;text-align:left;width:100%}
+.pcard:hover{border-color:var(--rose)}
+.pcard .thumb{width:56px;height:70px;border-radius:8px;object-fit:cover;background:var(--blush-soft);flex:none}
+.pcard .meta{min-width:0;flex:1}
+.pcard .t{font-weight:400;color:var(--ink);font-size:.86rem;overflow:hidden;text-overflow:ellipsis;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+.pcard .when{font-size:.74rem;color:var(--muted)}
+.pcard .chips{display:flex;gap:4px;flex-wrap:wrap;margin-top:4px}
+.list{display:grid;gap:8px}
+
+.week{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:8px}
+.day{background:rgba(255,255,255,.55);border:1px dashed var(--line);border-radius:14px;padding:8px;min-height:140px;display:flex;flex-direction:column;gap:6px}
+.day.today{border:1.5px solid var(--rose);background:var(--paper)}
+.day.empty{background:repeating-linear-gradient(-45deg,transparent 0 8px,rgba(242,196,206,.18) 8px 16px)}
+.day h3{font-family:var(--body);font-size:.78rem;font-weight:500;color:var(--muted);text-transform:uppercase;letter-spacing:.05em}
+.day .pcard{flex-direction:column}
+.day .pcard .thumb{width:100%;height:auto;aspect-ratio:4/5}
+.day .add{margin-top:auto;border:1px dashed var(--blush);background:none;border-radius:10px;padding:4px;color:var(--muted);cursor:pointer;font-size:.78rem}
+.day .add:hover{background:var(--blush-soft);color:var(--plum)}
+@media (max-width:900px){ .week{grid-template-columns:1fr} .day{min-height:0} .day .pcard{flex-direction:row} .day .pcard .thumb{width:56px;height:70px;aspect-ratio:auto} }
+
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:10px}
+.icard{background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:14px;display:flex;flex-direction:column;gap:6px}
+.icard .t{font-weight:400;color:var(--ink);cursor:pointer}
+.icard .t:hover{color:var(--plum);text-decoration:underline}
+.icard .hook{font-family:var(--display);font-style:italic;color:var(--plum);font-size:.92rem}
+.icard .foot{display:flex;gap:6px;flex-wrap:wrap;margin-top:auto;padding-top:6px}
+.filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+.filters select,.filters input{width:auto;min-width:130px;padding:6px 10px;font-size:.85rem}
+
+.mgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
+.mitem{background:var(--paper);border:1px solid var(--line);border-radius:14px;overflow:hidden;display:flex;flex-direction:column}
+.mitem img,.mitem video{width:100%;aspect-ratio:4/5;object-fit:cover;background:var(--blush-soft);display:block}
+.mitem .n{font-size:.7rem;padding:6px 8px;word-break:break-all;color:var(--muted)}
+.mitem .a{display:flex;gap:4px;padding:0 8px 8px;flex-wrap:wrap}
+
+/* modal */
+dialog{border:0;border-radius:22px;padding:0;width:min(1060px,calc(100vw - 24px));max-height:calc(100vh - 24px);background:var(--cream);color:var(--ink);box-shadow:0 30px 80px rgba(78,39,68,.25)}
+dialog::backdrop{background:rgba(78,39,68,.35)}
+.dlg-head{display:flex;align-items:center;gap:10px;padding:16px 20px;border-bottom:1px solid var(--line);background:var(--paper);position:sticky;top:0;z-index:1}
+.dlg-body{padding:18px 20px}
+.dlg-foot{display:flex;gap:8px;flex-wrap:wrap;padding:14px 20px;border-top:1px solid var(--line);background:var(--paper);position:sticky;bottom:0}
+.split{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);gap:20px}
+@media (max-width:860px){ .split{grid-template-columns:1fr} }
+.picker{display:grid;grid-template-columns:repeat(auto-fill,minmax(74px,1fr));gap:6px;max-height:240px;overflow:auto;padding:6px;border:1px solid var(--line);border-radius:12px;background:var(--paper)}
+.pick{position:relative;border:2px solid transparent;border-radius:9px;padding:0;background:none;cursor:pointer;overflow:hidden}
+.pick img,.pick video{width:100%;aspect-ratio:4/5;object-fit:cover;display:block}
+.pick[aria-pressed="true"]{border-color:var(--plum)}
+.pick .ord{position:absolute;top:3px;left:3px;background:var(--plum);color:#fff;border-radius:999px;font-size:.7rem;min-width:20px;height:20px;display:grid;place-items:center;font-weight:500}
+.pick:disabled{cursor:default}
+
+/* social preview */
+.phone{background:var(--paper);border:1px solid var(--line);border-radius:18px;overflow:hidden;max-width:380px;margin-inline:auto}
+.phone .ph-head{display:flex;align-items:center;gap:8px;padding:9px 12px;font-size:.82rem;font-weight:500}
+.phone .ph-head i{width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,var(--blush),var(--plum));display:inline-block}
+.phone .ph-media{position:relative;background:var(--blush-soft);aspect-ratio:4/5}
+.phone .ph-media img,.phone .ph-media video{width:100%;height:100%;object-fit:cover;display:block}
+.phone .ph-media .nav{position:absolute;top:50%;transform:translateY(-50%);border:0;background:rgba(255,255,255,.85);border-radius:50%;width:28px;height:28px;cursor:pointer}
+.phone .ph-media .nav.l{left:8px} .phone .ph-media .nav.r{right:8px}
+.phone .ph-media .dots{position:absolute;bottom:8px;left:0;right:0;text-align:center;font-size:.72rem;color:#fff;text-shadow:0 1px 3px rgba(0,0,0,.5)}
+.phone .ph-cap{padding:10px 12px;font-size:.82rem;white-space:pre-wrap;word-wrap:break-word;max-height:300px;overflow:auto}
+.phone .ph-cap .tags{color:#3B5A8F}
+.empty-media{display:grid;place-items:center;height:100%;color:var(--muted);font-size:.85rem}
+.log{font-size:.76rem;color:var(--muted);border-top:1px solid var(--line);margin-top:12px;padding-top:8px}
+.log div{padding:2px 0}
+.log .bad{color:var(--red)}
+pre.body{white-space:pre-wrap;font:300 .84rem/1.5 var(--body);background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:10px;max-height:160px;overflow:auto;margin:0}
+
+/* login */
+.login{max-width:420px;margin:12vh auto 0;text-align:center}
+.login .panel{text-align:left;margin-top:16px}
+
+#toast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);z-index:20;display:grid;gap:6px;width:min(520px,calc(100vw - 32px))}
+#toast div{background:var(--plum-deep);color:#fff;border-radius:14px;padding:10px 14px;font-size:.86rem;box-shadow:0 10px 30px rgba(0,0,0,.18)}
+#toast div.err{background:var(--red)}
+.hidden{display:none!important}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<dialog id="dlg"></dialog>
+<div id="toast" role="status" aria-live="polite"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script>
+// ---------------------------------------------------------------------------------------------
+// Garbhamantra admin: ideas, scheduled Facebook + Instagram posts, prompt library, media.
+// Fill in the two values below (Supabase -> Settings -> API). The anon key is meant to be
+// public; every table is protected by row-level security and only emails in public.admins
+// can read or change anything. Setup: docs/2026-11-11-auto-posting-setup.md
+// ---------------------------------------------------------------------------------------------
+const CONFIG = {
+  supabaseUrl: "https://yndfojrgszjgljcllxvn.supabase.co",
+  supabaseAnonKey: "",   // the "anon public" key
+};
+
+const TZ = "Asia/Kolkata";
+const BUCKET = "social-media";
+const CAPTION_MAX = 2200, TAGS_MAX = 30;
+const FORMATS = { image: "Single image", carousel: "Carousel", reel: "Reel (video)" };
+const IDEA_FORMATS = { ...FORMATS, story: "Story (manual)" };
+const LANGS = { en: "English", hi: "Hindi", gu: "Gujarati" };
+const IDEA_STATUS = ["idea", "drafted", "approved", "scheduled", "posted", "rejected"];
+const POST_STATUS = ["draft", "approved", "publishing", "posted", "failed", "cancelled"];
+const PROMPT_CATS = { weekly_plan: "Weekly plan", caption: "Caption", translation: "Translation",
+  hashtags: "Hashtags", image: "Image", carousel: "Carousel", reel_script: "Reel script",
+  ad_copy: "Ad copy", replies: "Replies", other: "Other" };
+
+const S = { tab: "week", user: null, posts: [], ideas: [], prompts: [], media: [],
+            weekStart: null, schedView: "week", ideaFilter: { status: "", format: "", language: "", q: "" },
+            promptFilter: { cat: "", q: "" }, postFilter: "" };
+
+// ---- helpers ---------------------------------------------------------------------------------
+const $ = (s, r = document) => r.querySelector(s);
+const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);
+const istDate = (d) => new Date(d).toLocaleDateString("en-CA", { timeZone: TZ });
+const istTime = (d) => new Date(d).toLocaleTimeString("en-GB", { timeZone: TZ, hour: "2-digit", minute: "2-digit" });
+const today = () => istDate(Date.now());
+const addDays = (ymd, n) => { const d = new Date(ymd + "T12:00:00Z"); d.setUTCDate(d.getUTCDate() + n); return d.toISOString().slice(0, 10); };
+const mondayOf = (ymd) => addDays(ymd, -((new Date(ymd + "T12:00:00Z").getUTCDay() + 6) % 7));
+const dayLabel = (ymd) => new Date(ymd + "T12:00:00+05:30").toLocaleDateString("en-IN", { timeZone: TZ, weekday: "short", day: "numeric", month: "short" });
+const whenLabel = (iso) => `${dayLabel(istDate(iso))} · ${istTime(iso)}`;
+const mediaUrl = (n) => `${CONFIG.supabaseUrl}/storage/v1/object/public/${BUCKET}/${n.split("/").map(encodeURIComponent).join("/")}`;
+const isVideo = (n) => /\.(mp4|mov)$/i.test(n);
+const isJpeg = (n) => /\.jpe?g$/i.test(n);
+const fullCaption = (p) => [(p.caption || "").trim(), (p.hashtags || "").trim()].filter(Boolean).join("\n\n");
+const tagCount = (s) => (s.match(/#[\p{L}\p{N}_]+/gu) || []).length;
+const opts = (obj, sel) => Object.entries(obj).map(([v, l]) => `<option value="${v}"${v === sel ? " selected" : ""}>${esc(l)}</option>`).join("");
+const optList = (arr, sel, blank) => (blank ? `<option value="">${blank}</option>` : "") + arr.map((v) => `<option${v === sel ? " selected" : ""}>${v}</option>`).join("");
+const placeholders = (s) => [...new Set((s.match(/\{[a-z_]+\}/gi) || []))];
+const mediaThumb = (n, cls = "thumb") => !n ? `<span class="${cls}"></span>`
+  : isVideo(n) ? `<video class="${cls}" src="${esc(mediaUrl(n))}#t=0.5" muted preload="metadata"></video>`
+  : `<img class="${cls}" src="${esc(mediaUrl(n))}" alt="" loading="lazy">`;
+
+function toast(msg, kind = "") {
+  const el = document.createElement("div");
+  el.className = kind; el.textContent = msg;
+  $("#toast").append(el);
+  setTimeout(() => el.remove(), kind === "err" ? 8000 : 3500);
+}
+const fail = (e) => { console.error(e); toast(e?.message || String(e), "err"); };
+
+// ---- boot ------------------------------------------------------------------------------------
+let sb;
+if (!CONFIG.supabaseUrl || !CONFIG.supabaseAnonKey) {
+  $("#app").innerHTML = `<div class="wrap login"><h1>Garbhamantra Admin</h1><div class="panel">
+    <p><strong>Almost ready.</strong> The admin panel is installed but not connected to the database yet.</p>
+    <p class="muted small">Missing: the Supabase anon key in the <code>CONFIG</code> block of <code>admin/index.html</code>.</p>
+    <p class="muted small">Full setup: docs/2026-11-11-auto-posting-setup.md</p></div></div>`;
+} else {
+  sb = supabase.createClient(CONFIG.supabaseUrl, CONFIG.supabaseAnonKey);
+  sb.auth.onAuthStateChange((_e, session) => { if (session?.user?.id !== S.user?.id) start(session); });
+  sb.auth.getSession().then(({ data }) => start(data.session));
+}
+
+let started = null;
+async function start(session) {
+  if (started === (session?.user?.id ?? "none")) return;
+  started = session?.user?.id ?? "none";
+  S.user = session?.user ?? null;
+  if (!S.user) return renderLogin();
+  const { data: admin, error } = await sb.rpc("is_admin");
+  if (error || !admin) {
+    $("#app").innerHTML = `<div class="wrap login"><h1>Garbhamantra Admin</h1><div class="panel">
+      <p>You are signed in as <strong>${esc(S.user.email)}</strong>, but this email is not on the admin list.</p>
+      <p class="muted small">Add it in the Supabase SQL editor:<br><code>insert into public.admins (email) values ('${esc(S.user.email.toLowerCase())}');</code></p>
+      <button class="btn" data-act="logout">Sign out</button></div></div>`;
+    return;
+  }
+  S.weekStart = mondayOf(today());
+  renderShell();
+  await loadAll();
+  render();
+}
+
+function renderLogin() {
+  $("#app").innerHTML = `<div class="wrap login"><h1>Garbhamantra Admin</h1>
+    <p class="muted">Ideas · Schedule · Prompts</p>
+    <form class="panel" id="loginForm">
+      <div class="field"><label for="em">Admin email</label><input type="email" id="em" required autocomplete="email"></div>
+      <button class="btn primary" type="submit">Email me a sign-in link</button>
+      <p class="muted small" id="loginMsg" style="margin:10px 0 0"></p>
+    </form></div>`;
+  $("#loginForm").onsubmit = async (e) => {
+    e.preventDefault();
+    const email = $("#em").value.trim();
+    const { error } = await sb.auth.signInWithOtp({ email, options: { emailRedirectTo: location.href.split("#")[0] } });
+    $("#loginMsg").textContent = error ? error.message : `Check ${email} for the sign-in link. You can close this tab.`;
+  };
+}
+
+function renderShell() {
+  const tabs = [["week", "This week"], ["schedule", "Schedule"], ["ideas", "Ideas"], ["prompts", "Prompts"], ["media", "Media"]];
+  $("#app").innerHTML = `<header><div class="wrap">
+      <div class="top"><span class="brand">Garbhamantra<small>Admin</small></span>
+        <button class="btn small" data-act="check">Test Meta connection</button>
+        <span class="who">${esc(S.user.email)}</span>
+        <button class="btn small" data-act="logout">Sign out</button></div>
+      <nav class="tabs" aria-label="Sections">${tabs.map(([k, l]) => `<button data-tab="${k}">${l}</button>`).join("")}</nav>
+    </div></header><main class="wrap" id="main"><p class="muted">Loading…</p></main>`;
+}
+
+async function loadAll() {
+  const [p, i, pr, m] = await Promise.all([
+    sb.from("posts").select("*").order("scheduled_at"),
+    sb.from("ideas").select("*").order("created_at", { ascending: false }),
+    sb.from("prompts").select("*").order("favourite", { ascending: false }).order("name"),
+    sb.storage.from(BUCKET).list("", { limit: 1000, sortBy: { column: "name", order: "asc" } }),
+  ]);
+  for (const r of [p, i, pr, m]) if (r.error) fail(r.error);
+  S.posts = p.data || []; S.ideas = i.data || []; S.prompts = pr.data || [];
+  S.media = (m.data || []).filter((f) => f.id && f.name !== ".emptyFolderPlaceholder").map((f) => f.name);
+}
+
+function render() {
+  $$("nav.tabs button").forEach((b) => b.setAttribute("aria-current", b.dataset.tab === S.tab ? "page" : "false"));
+  const v = { week: viewWeek, schedule: viewSchedule, ideas: viewIdeas, prompts: viewPrompts, media: viewMedia }[S.tab];
+  $("#main").innerHTML = v();
+  if (S.tab === "media") bindUpload();
+}
+
+// ---- shared bits ----------------------------------------------------------------------------
+const missingMedia = (p) => p.media.filter((m) => !S.media.includes(m));
+const livePosts = () => S.posts.filter((p) => p.status !== "cancelled");
+
+function postCard(p) {
+  const miss = missingMedia(p).length;
+  return `<button class="pcard" data-act="open-post" data-id="${p.id}">
+    ${mediaThumb(p.media[0])}
+    <span class="meta"><span class="when">${whenLabel(p.scheduled_at)}</span>
+      <span class="t">${esc(p.title)}</span>
+      <span class="chips"><span class="chip ${p.status}">${p.status}</span>
+        ${p.format !== "image" ? `<span class="chip plat">${p.format}${p.format === "carousel" ? ` ·${p.media.length}` : ""}</span>` : ""}
+        ${p.platforms.map((x) => `<span class="chip plat">${x === "facebook" ? "FB" : "IG"}</span>`).join("")}
+        ${miss ? `<span class="chip failed">${miss} file missing</span>` : ""}</span></span></button>`;
+}
+
+function weekDays(start) { return [...Array(7)].map((_, i) => addDays(start, i)); }
+function postsOn(ymd) { return livePosts().filter((p) => istDate(p.scheduled_at) === ymd); }
+
+// ---- This week --------------------------------------------------------------------------------
+function viewWeek() {
+  const now = Date.now(), in7 = now + 7 * 864e5;
+  const next7 = livePosts().filter((p) => { const t = Date.parse(p.scheduled_at); return t >= now - 36e5 && t <= in7; });
+  const unapproved = next7.filter((p) => p.status === "draft");
+  const failed = S.posts.filter((p) => p.status === "failed");
+  const nextMon = addDays(mondayOf(today()), 7);
+  const nextWeekDays = weekDays(nextMon);
+  const covered = nextWeekDays.filter((d) => postsOn(d).length).length;
+  const nextWeekDrafts = nextWeekDays.flatMap(postsOn).filter((p) => p.status === "draft").length;
+  const lastPlanned = livePosts().filter((p) => ["draft", "approved"].includes(p.status)).map((p) => p.scheduled_at).sort().pop();
+  const posted30 = S.posts.filter((p) => p.status === "posted" && Date.parse(p.published_at || p.scheduled_at) > now - 30 * 864e5).length;
+  const missing = next7.filter((p) => missingMedia(p).length);
+
+  let alerts = "";
+  if (failed.length) alerts += `<div class="alert bad"><strong>${failed.length} post${failed.length > 1 ? "s" : ""} failed.</strong> Open ${failed.length > 1 ? "them" : "it"} below or in Schedule → List to see the error and retry.</div>`;
+  if (unapproved.length) alerts += `<div class="alert warn"><strong>${unapproved.length} post${unapproved.length > 1 ? "s" : ""} in the next 7 days ${unapproved.length > 1 ? "are" : "is"} still a draft.</strong> Drafts are never published. Open each one and press <em>Approve</em>.</div>`;
+  if (missing.length) alerts += `<div class="alert bad"><strong>${missing.length} upcoming post${missing.length > 1 ? "s use" : " uses"} a file that is not uploaded yet.</strong> Upload it in the Media tab.</div>`;
+  if (covered < 7) alerts += `<div class="alert warn"><strong>Next week (${dayLabel(nextMon)} – ${dayLabel(addDays(nextMon, 6))}) has posts on ${covered} of 7 days.</strong> Plan it by Friday: Prompts → "Weekly content plan", then Ideas → Import week plan.</div>`;
+  if (!alerts) alerts = `<div class="alert ok">All set. The next 7 days are approved and next week is planned.</div>`;
+
+  return `<div class="stats">
+      <div class="stat"><b>${next7.length}</b><span>posts in the next 7 days</span></div>
+      <div class="stat"><b>${next7.length - unapproved.length}</b><span>approved to auto-post</span></div>
+      <div class="stat"><b>${covered}/7</b><span>days planned next week${nextWeekDrafts ? ` · ${nextWeekDrafts} drafts` : ""}</span></div>
+      <div class="stat"><b>${lastPlanned ? dayLabel(istDate(lastPlanned)) : "–"}</b><span>planned through</span></div>
+      <div class="stat"><b>${posted30}</b><span>posted in last 30 days</span></div>
+    </div>
+    <div class="section">${alerts}</div>
+    <div class="section"><div class="section-head"><h2>What goes out in the next 7 days</h2>
+      <button class="btn small spacer" data-act="copy-plan-prompt">Copy weekly planning prompt</button>
+      <button class="btn small" data-act="new-post">+ New post</button></div>
+      ${next7.length ? `<div class="list">${next7.map(postCard).join("")}</div>` : `<p class="muted">Nothing scheduled in the next 7 days.</p>`}
+    </div>
+    ${failed.length ? `<div class="section"><h2 style="margin-bottom:10px">Failed</h2><div class="list">${failed.map(postCard).join("")}</div></div>` : ""}`;
+}
+
+// ---- Schedule -------------------------------------------------------------------------------
+function viewSchedule() {
+  const head = `<div class="section-head"><h2>Schedule</h2>
+    <span class="row"><button class="btn small" data-act="sched-view" data-v="week"${S.schedView === "week" ? ' aria-pressed="true" style="background:var(--blush-soft)"' : ""}>Week</button>
+    <button class="btn small" data-act="sched-view" data-v="list"${S.schedView === "list" ? ' aria-pressed="true" style="background:var(--blush-soft)"' : ""}>List</button></span>
+    <button class="btn small primary spacer" data-act="new-post">+ New post</button></div>`;
+  if (S.schedView === "list") {
+    const rows = S.posts.filter((p) => !S.postFilter || p.status === S.postFilter).slice().reverse();
+    return head + `<div class="filters"><select data-act="post-filter">${optList(POST_STATUS, S.postFilter, "All statuses")}</select>
+      <span class="muted small" style="align-self:center">${rows.length} posts, newest first</span></div>
+      ${rows.length ? `<div class="list">${rows.map(postCard).join("")}</div>` : `<p class="muted">No posts.</p>`}`;
+  }
+  const days = weekDays(S.weekStart);
+  return head + `<div class="row" style="margin-bottom:12px">
+      <button class="btn small" data-act="week-nav" data-d="-7">← Prev</button>
+      <strong style="font-weight:400">${dayLabel(days[0])} – ${dayLabel(days[6])}</strong>
+      <button class="btn small" data-act="week-nav" data-d="7">Next →</button>
+      <button class="btn small" data-act="week-nav" data-d="0">This week</button>
+      <span class="muted small spacer">Times are India time (IST)</span></div>
+    <div class="week">${days.map((d) => {
+      const ps = postsOn(d);
+      return `<div class="day${d === today() ? " today" : ""}${ps.length ? "" : " empty"}"><h3>${dayLabel(d)}</h3>
+        ${ps.map(postCard).join("")}
+        ${d >= today() ? `<button class="add" data-act="new-post" data-date="${d}">+ add</button>` : ""}</div>`;
+    }).join("")}</div>`;
+}
+
+// ---- Ideas ------------------------------------------------------------------------------------
+function viewIdeas() {
+  const f = S.ideaFilter, q = f.q.toLowerCase();
+  const rows = S.ideas.filter((i) => (!f.status || i.status === f.status) && (!f.format || i.format === f.format)
+    && (!f.language || i.language === f.language)
+    && (!q || [i.title, i.hook, i.book, i.pillar, i.notes].join(" ").toLowerCase().includes(q)));
+  const count = (st) => S.ideas.filter((i) => i.status === st).length;
+  return `<div class="section-head"><h2>Ideas</h2>
+      <span class="muted small">${IDEA_STATUS.map((s) => `${s} ${count(s)}`).join(" · ")}</span>
+      <button class="btn small spacer" data-act="import">Import week plan</button>
+      <button class="btn small primary" data-act="new-idea">+ New idea</button></div>
+    <div class="filters">
+      <input type="text" placeholder="Search…" value="${esc(f.q)}" data-act="idea-q">
+      <select data-act="idea-f" data-k="status">${optList(IDEA_STATUS, f.status, "Any status")}</select>
+      <select data-act="idea-f" data-k="format"><option value="">Any format</option>${opts(IDEA_FORMATS, f.format)}</select>
+      <select data-act="idea-f" data-k="language"><option value="">Any language</option>${opts(LANGS, f.language)}</select>
+    </div>
+    ${rows.length ? `<div class="grid">${rows.map((i) => `<div class="icard">
+        <div class="row"><span class="chip ${i.status}">${i.status}</span><span class="chip plat">${esc(IDEA_FORMATS[i.format] || i.format)}</span><span class="chip plat">${i.language}</span></div>
+        <div class="t" data-act="open-idea" data-id="${i.id}">${esc(i.title)}</div>
+        ${i.hook ? `<div class="hook">“${esc(i.hook)}”</div>` : ""}
+        <div class="muted small">${esc([i.book, i.pillar].filter(Boolean).join(" · "))}</div>
+        <div class="foot">
+          ${["idea", "drafted"].includes(i.status) ? `<button class="btn small good" data-act="idea-status" data-id="${i.id}" data-s="approved">Approve</button><button class="btn small danger" data-act="idea-status" data-id="${i.id}" data-s="rejected">Reject</button>` : ""}
+          ${["idea", "drafted", "approved"].includes(i.status) && i.format !== "story" ? `<button class="btn small" data-act="idea-to-post" data-id="${i.id}">Schedule</button>` : ""}
+          ${i.status === "rejected" ? `<button class="btn small" data-act="idea-status" data-id="${i.id}" data-s="idea">Restore</button>` : ""}
+        </div></div>`).join("")}</div>` : `<p class="muted">No ideas match.</p>`}`;
+}
+
+// ---- Prompts ----------------------------------------------------------------------------------
+function viewPrompts() {
+  const f = S.promptFilter, q = f.q.toLowerCase();
+  const rows = S.prompts.filter((p) => (!f.cat || p.category === f.cat) && (!q || (p.name + " " + p.body).toLowerCase().includes(q)));
+  return `<div class="section-head"><h2>Prompt library</h2>
+      <span class="muted small">Prompts Claude uses to plan and write posts. Edits keep a version history.</span>
+      <button class="btn small primary spacer" data-act="new-prompt">+ New prompt</button></div>
+    <div class="filters"><input type="text" placeholder="Search…" value="${esc(f.q)}" data-act="prompt-q">
+      <select data-act="prompt-cat"><option value="">All categories</option>${opts(PROMPT_CATS, f.cat)}</select></div>
+    ${rows.length ? `<div class="grid">${rows.map((p) => `<div class="icard">
+        <div class="row"><span class="chip plat">${esc(PROMPT_CATS[p.category] || p.category)}</span>${p.favourite ? "<span title='Favourite'>★</span>" : ""}<span class="muted small spacer">v${p.version}</span></div>
+        <div class="t" data-act="open-prompt" data-id="${p.id}">${esc(p.name)}</div>
+        <div class="muted small">${placeholders(p.body).map(esc).join(" ") || "no placeholders"}</div>
+        <div class="muted small">${p.last_used_at ? "Last used " + dayLabel(istDate(p.last_used_at)) : "Not used yet"}</div>
+        <div class="foot"><button class="btn small" data-act="copy-prompt" data-id="${p.id}">Copy</button>
+          <button class="btn small" data-act="open-prompt" data-id="${p.id}">Open</button></div></div>`).join("")}</div>`
+      : `<p class="muted">No prompts yet. Run supabase/seeds/2026-11-11-prompt-library.sql in the SQL editor to add the starter set.</p>`}`;
+}
+
+// ---- Media ------------------------------------------------------------------------------------
+function viewMedia() {
+  const used = (n) => S.posts.filter((p) => p.media.includes(n) && p.status !== "cancelled").length;
+  return `<div class="section-head"><h2>Media</h2>
+      <span class="muted small">Public files Facebook and Instagram fetch from. Images must be JPEG (4:5 works best); videos MP4. Max 50 MB. Never upload book PDFs here.</span>
+      <label class="btn small primary spacer" style="margin:0;color:#fff">Upload files<input type="file" id="up" multiple accept="image/jpeg,video/mp4,video/quicktime" class="hidden"></label></div>
+    <p class="muted small" id="upMsg"></p>
+    ${S.media.length ? `<div class="mgrid">${S.media.map((n) => `<div class="mitem">${mediaThumb(n, "")}
+        <div class="n">${esc(n)}</div><div class="a"><span class="muted small">used ${used(n)}×</span>
+        <button class="btn small spacer" data-act="copy-url" data-n="${esc(n)}">URL</button>
+        <button class="btn small danger" data-act="del-media" data-n="${esc(n)}">Delete</button></div></div>`).join("")}</div>`
+      : `<p class="muted">No files yet. Upload the images from the marketing/ folder to start.</p>`}`;
+}
+
+function bindUpload() {
+  $("#up").onchange = async (e) => {
+    const files = [...e.target.files];
+    let ok = 0;
+    for (const f of files) {
+      const name = f.name.replace(/[^\w.\-]+/g, "-");
+      if (!/\.(jpe?g|mp4|mov)$/i.test(name)) { toast(`${f.name}: only JPEG, MP4 or MOV`, "err"); continue; }
+      $("#upMsg").textContent = `Uploading ${name}…`;
+      const { error } = await sb.storage.from(BUCKET).upload(name, f, { contentType: f.type || undefined, upsert: false });
+      if (error) toast(`${name}: ${error.message}`, "err"); else ok++;
+    }
+    toast(`${ok} of ${files.length} uploaded`);
+    await loadAll(); render();
+  };
+}
+
+// ---- modal ------------------------------------------------------------------------------------
+const dlg = $("#dlg");
+function modal(title, body, foot = "") {
+  dlg.innerHTML = `<div class="dlg-head"><h2>${title}</h2><button class="btn small spacer" data-act="close">Close</button></div>
+    <div class="dlg-body">${body}</div>${foot ? `<div class="dlg-foot">${foot}</div>` : ""}`;
+  if (!dlg.open) dlg.showModal();
+  dlg.scrollTop = 0;
+}
+const closeModal = () => dlg.open && dlg.close();
+
+// ---- post editor ------------------------------------------------------------------------------
+let ED = null;   // post being edited: { post, sel: [media names], slide }
+function openPost(p) {
+  const post = { title: "", caption: "", hashtags: "", format: "image", media: [], platforms: ["facebook", "instagram"], status: "draft", ...p };
+  ED = { post, sel: [...post.media], slide: 0 };
+  const locked = !["draft", "failed"].includes(post.status);
+  const d = post.scheduled_at ? istDate(post.scheduled_at) : (p.date || addDays(today(), 1));
+  const t = post.scheduled_at ? istTime(post.scheduled_at) : "20:00";
+  const dis = locked ? " disabled" : "";
+  const idea = post.idea_id ? S.ideas.find((i) => i.id === post.idea_id) : null;
+  const body = `<div class="split"><form id="pf" onsubmit="return false">
+      ${locked ? `<div class="alert ${post.status === "posted" ? "ok" : "warn"}">${{
+        approved: "Approved: this post will be published automatically at its time. Unapprove it to make changes.",
+        publishing: "Publishing right now. Refresh in a minute.",
+        posted: "Published.", cancelled: "Cancelled. It will not be posted." }[post.status] || ""}</div>` : ""}
+      ${post.error ? `<div class="alert bad">${esc(post.error)}</div>` : ""}
+      ${post.fb_url || post.ig_url ? `<p class="small">${post.fb_url ? `<a href="${esc(post.fb_url)}" target="_blank" rel="noopener">View on Facebook ↗</a>` : ""} ${post.ig_url ? ` · <a href="${esc(post.ig_url)}" target="_blank" rel="noopener">View on Instagram ↗</a>` : ""}</p>` : ""}
+      <div class="field"><label for="f-title">Title (internal, not posted)</label><input type="text" id="f-title" value="${esc(post.title)}"${dis}></div>
+      <div class="row">
+        <div class="field"><label for="f-date">Date (IST)</label><input type="date" id="f-date" value="${d}"${dis}></div>
+        <div class="field"><label for="f-time">Time (IST)</label><input type="time" id="f-time" value="${t}"${dis}></div>
+        <div class="field"><label for="f-format">Format</label><select id="f-format"${dis}>${opts(FORMATS, post.format)}</select></div>
+      </div>
+      <div class="field"><label>Platforms</label><div class="row">
+        ${["facebook", "instagram"].map((x) => `<label style="display:flex;gap:6px;align-items:center;margin:0;color:var(--ink)"><input type="checkbox" name="plat" value="${x}"${post.platforms.includes(x) ? " checked" : ""}${dis}> ${x === "facebook" ? "Facebook Page" : "Instagram"}</label>`).join("")}</div></div>
+      <div class="field"><label for="f-caption">Caption</label><textarea id="f-caption" rows="9"${dis}>${esc(post.caption)}</textarea></div>
+      <div class="field"><label for="f-tags">Hashtags</label><textarea id="f-tags" rows="2" style="min-height:0"${dis}>${esc(post.hashtags)}</textarea>
+        <div class="count" id="f-count"></div></div>
+      <div class="field"><label>Media <span id="f-mhint"></span></label>
+        ${S.media.length ? `<div class="picker" id="picker">${S.media.map((n) => `<button type="button" class="pick" data-act="pick" data-n="${esc(n)}" title="${esc(n)}"${dis}>${mediaThumb(n, "")}</button>`).join("")}</div>`
+          : `<p class="muted small">No media uploaded yet (Media tab).</p>`}
+        ${missingMedia(post).length ? `<div class="alert bad" style="margin-top:8px">Not uploaded yet: ${missingMedia(post).map(esc).join(", ")}</div>` : ""}</div>
+      ${idea ? `<p class="muted small">From idea: <a href="#" data-act="open-idea" data-id="${idea.id}">${esc(idea.title)}</a></p>` : ""}
+      <div class="log" id="plog"></div>
+    </form>
+    <div><label>Preview (what will be posted)</label><div id="pv"></div></div></div>`;
+  const s = post.status, b = [];
+  if (!post.id || s === "draft") b.push(`<button class="btn" data-act="save-post">Save draft</button>`, `<button class="btn good" data-act="approve-post">Approve for auto-post</button>`, `<button class="btn primary" data-act="publish-now">Publish now</button>`);
+  if (s === "failed") b.push(`<button class="btn" data-act="save-post">Save</button>`, `<button class="btn good" data-act="retry-post">Retry</button>`);
+  if (s === "approved") b.push(`<button class="btn" data-act="unapprove-post">Unapprove to edit</button>`, `<button class="btn primary" data-act="publish-now">Publish now</button>`);
+  if (s === "cancelled") b.push(`<button class="btn" data-act="restore-post">Restore as draft</button>`);
+  if (post.id && s === "posted") b.push(`<button class="btn" data-act="duplicate-post">Duplicate as new draft</button>`);
+  if (post.id && !["posted", "publishing", "cancelled"].includes(s)) b.push(`<button class="btn danger spacer" data-act="cancel-post">Cancel post</button>`);
+  if (post.id && !["posted", "publishing"].includes(s)) b.push(`<button class="btn danger${s === "cancelled" ? " spacer" : ""}" data-act="delete-post">Delete</button>`);
+  modal(post.id ? "Edit post" : "New post", body, b.join(""));
+  ["#f-caption", "#f-tags", "#f-format"].forEach((sel) => $(sel).addEventListener("input", refreshPost));
+  $$("input[name=plat]").forEach((x) => x.addEventListener("change", refreshPost));
+  refreshPost();
+  if (post.id) loadLog(post.id);
+}
+
+function readPost() {
+  const p = ED.post;
+  return { ...p, title: $("#f-title").value.trim(), caption: $("#f-caption").value, hashtags: $("#f-tags").value.trim(),
+    format: $("#f-format").value, media: [...ED.sel], platforms: $$("input[name=plat]:checked").map((x) => x.value),
+    scheduled_at: new Date(`${$("#f-date").value}T${$("#f-time").value || "20:00"}:00+05:30`).toISOString() };
+}
+
+function problems(p) {
+  const out = [], n = p.media.length;
+  if (!p.title) out.push("Add a title.");
+  if (!p.platforms.length) out.push("Pick at least one platform.");
+  if (p.format === "image" && (n !== 1 || !isJpeg(p.media[0] || ""))) out.push("Single image needs exactly 1 JPEG.");
+  if (p.format === "carousel" && (n < 2 || n > 10 || !p.media.every(isJpeg))) out.push("Carousel needs 2–10 JPEGs.");
+  if (p.format === "reel" && (n !== 1 || !isVideo(p.media[0] || ""))) out.push("Reel needs exactly 1 MP4 video.");
+  const cap = fullCaption(p);
+  if (cap.length > CAPTION_MAX) out.push(`Caption + hashtags is ${cap.length} characters (max ${CAPTION_MAX}).`);
+  if (tagCount(cap) > TAGS_MAX) out.push(`${tagCount(cap)} hashtags (Instagram max ${TAGS_MAX}).`);
+  if (!p.caption.trim()) out.push("Caption is empty.");
+  const miss = missingMedia(p);
+  if (miss.length) out.push(`Upload first: ${miss.join(", ")}`);
+  return out;
+}
+
+function refreshPost() {
+  const p = readPost();
+  const cap = fullCaption(p);
+  const over = cap.length > CAPTION_MAX || tagCount(cap) > TAGS_MAX;
+  $("#f-count").className = "count" + (over ? " over" : "");
+  $("#f-count").textContent = `${cap.length}/${CAPTION_MAX} characters · ${tagCount(cap)}/${TAGS_MAX} hashtags`;
+  $("#f-mhint").textContent = { image: "(pick 1 JPEG)", carousel: "(pick 2–10 JPEGs in order)", reel: "(pick 1 MP4)" }[p.format];
+  $$(".pick").forEach((b) => {
+    const i = ED.sel.indexOf(b.dataset.n);
+    b.setAttribute("aria-pressed", i >= 0);
+    b.querySelector(".ord")?.remove();
+    if (i >= 0) b.insertAdjacentHTML("beforeend", `<span class="ord">${i + 1}</span>`);
+  });
+  ED.slide = Math.min(ED.slide, Math.max(0, p.media.length - 1));
+  const m = p.media[ED.slide];
+  const [text, tags] = [(p.caption || "").trim(), p.hashtags];
+  $("#pv").innerHTML = `<div class="phone"><div class="ph-head"><i></i>garbhamantra</div>
+    <div class="ph-media">${m ? (isVideo(m) ? `<video src="${esc(mediaUrl(m))}" controls muted playsinline></video>` : `<img src="${esc(mediaUrl(m))}" alt="">`) : `<div class="empty-media">No media selected</div>`}
+      ${p.media.length > 1 ? `<button class="nav l" data-act="slide" data-d="-1" aria-label="Previous">‹</button><button class="nav r" data-act="slide" data-d="1" aria-label="Next">›</button><div class="dots">${ED.slide + 1} / ${p.media.length}</div>` : ""}</div>
+    <div class="ph-cap">${esc(text)}${tags ? `\n\n<span class="tags">${esc(tags)}</span>` : ""}</div></div>
+    <p class="muted small" style="text-align:center">${esc(p.platforms.map((x) => x === "facebook" ? "Facebook" : "Instagram").join(" + ") || "No platform")} · ${whenLabel(p.scheduled_at)} IST</p>
+    ${problems(p).length ? `<div class="alert warn small">${problems(p).map(esc).join("<br>")}</div>` : `<div class="alert ok small">Ready to approve.</div>`}`;
+}
+
+async function loadLog(id) {
+  const { data } = await sb.from("post_log").select("*").eq("post_id", id).order("at", { ascending: false }).limit(12);
+  if (!data?.length || !$("#plog")) return;
+  $("#plog").innerHTML = `<strong style="font-weight:500">Publishing log</strong>` + data.map((l) =>
+    `<div class="${l.ok ? "" : "bad"}">${whenLabel(l.at)} · ${esc(l.platform || "-")} · ${esc(l.action)} ${l.ok ? "✓" : "✗ " + esc(l.detail?.error || "")}</div>`).join("");
+}
+
+async function savePost(extra = {}) {
+  const p = readPost();
+  const row = { title: p.title || "Untitled", caption: p.caption, hashtags: p.hashtags, format: p.format, media: p.media,
+    platforms: p.platforms.length ? p.platforms : ["facebook", "instagram"], scheduled_at: p.scheduled_at, idea_id: p.idea_id ?? null, ...extra };
+  const q = p.id ? sb.from("posts").update(row).eq("id", p.id) : sb.from("posts").insert(row);
+  const { data, error } = await q.select().single();
+  if (error) throw error;
+  if (data.idea_id) {
+    const idea = S.ideas.find((i) => i.id === data.idea_id);
+    if (idea && ["idea", "drafted", "approved"].includes(idea.status)) await sb.from("ideas").update({ status: "scheduled" }).eq("id", idea.id);
+  }
+  return data;
+}
+
+async function approvePost(now = false) {
+  const p = readPost();
+  const issues = problems(p);
+  if (issues.length) { toast("Fix first: " + issues[0], "err"); return null; }
+  if (!now && Date.parse(p.scheduled_at) < Date.now() &&
+      !confirm("This time is already in the past, so it will be published within 5 minutes. Continue?")) return null;
+  return savePost({ status: "approved", approved_at: new Date().toISOString(), approved_by: S.user.email, error: null });
+}
+
+async function setPost(fields, msg) {
+  const { error } = await sb.from("posts").update(fields).eq("id", ED.post.id);
+  if (error) throw error;
+  toast(msg); closeModal(); await loadAll(); render();
+}
+
+// ---- idea editor -----------------------------------------------------------------------------
+function openIdea(i) {
+  const idea = { title: "", hook: "", caption: "", format: "image", language: "en", book: "", pillar: "", status: "idea", notes: "", ...i };
+  const posts = idea.id ? S.posts.filter((p) => p.idea_id === idea.id) : [];
+  modal(idea.id ? "Idea" : "New idea", `<form id="if" onsubmit="return false">
+    <div class="field"><label for="i-title">Title</label><input type="text" id="i-title" value="${esc(idea.title)}"></div>
+    <div class="field"><label for="i-hook">Hook (first line)</label><input type="text" id="i-hook" value="${esc(idea.hook)}"></div>
+    <div class="row">
+      <div class="field"><label for="i-format">Format</label><select id="i-format">${opts(IDEA_FORMATS, idea.format)}</select></div>
+      <div class="field"><label for="i-lang">Language</label><select id="i-lang">${opts(LANGS, idea.language)}</select></div>
+      <div class="field"><label for="i-status">Status</label><select id="i-status">${optList(IDEA_STATUS, idea.status)}</select></div></div>
+    <div class="row">
+      <div class="field"><label for="i-book">Book</label><input type="text" id="i-book" value="${esc(idea.book)}" placeholder="bundle, Mandala Vol 1…"></div>
+      <div class="field"><label for="i-pillar">Theme</label><input type="text" id="i-pillar" value="${esc(idea.pillar)}" placeholder="calm, value, inside the books…"></div></div>
+    <div class="field"><label for="i-caption">Draft caption</label><textarea id="i-caption" rows="6">${esc(idea.caption)}</textarea></div>
+    <div class="field"><label for="i-notes">Notes</label><textarea id="i-notes" rows="3">${esc(idea.notes)}</textarea></div>
+    ${posts.length ? `<label>Posts from this idea</label><div class="list">${posts.map(postCard).join("")}</div>` : ""}
+  </form>`, `<button class="btn primary" data-act="save-idea" data-id="${idea.id || ""}">Save</button>
+    ${idea.format !== "story" ? `<button class="btn" data-act="idea-to-post" data-id="${idea.id || ""}">Save &amp; schedule</button>` : ""}
+    ${idea.id ? `<button class="btn danger spacer" data-act="delete-idea" data-id="${idea.id}">Delete</button>` : ""}`);
+}
+
+async function saveIdea(id) {
+  const row = { title: $("#i-title").value.trim() || "Untitled idea", hook: $("#i-hook").value.trim() || null,
+    format: $("#i-format").value, language: $("#i-lang").value, status: $("#i-status").value,
+    book: $("#i-book").value.trim() || null, pillar: $("#i-pillar").value.trim() || null,
+    caption: $("#i-caption").value || null, notes: $("#i-notes").value || null };
+  const q = id ? sb.from("ideas").update(row).eq("id", id) : sb.from("ideas").insert(row);
+  const { data, error } = await q.select().single();
+  if (error) throw error;
+  return data;
+}
+
+function ideaToPost(idea) {
+  const fmt = idea.format === "story" ? "image" : idea.format;
+  openPost({ title: idea.title, caption: idea.caption || (idea.hook ? idea.hook + "\n\n" : ""), format: fmt, idea_id: idea.id });
+}
+
+// ---- prompt editor ----------------------------------------------------------------------------
+function openPrompt(pr) {
+  const p = { name: "", category: "caption", body: "", notes: "", favourite: false, ...pr };
+  modal(p.id ? esc(p.name) : "New prompt", `<form id="prf" onsubmit="return false">
+    <div class="row"><div class="field" style="flex:2 1 240px"><label for="r-name">Name</label><input type="text" id="r-name" value="${esc(p.name)}"></div>
+      <div class="field"><label for="r-cat">Category</label><select id="r-cat">${opts(PROMPT_CATS, p.category)}</select></div>
+      <label style="display:flex;gap:6px;align-items:center;margin:0;color:var(--ink)"><input type="checkbox" id="r-fav"${p.favourite ? " checked" : ""}> Favourite</label></div>
+    <div class="field"><label for="r-body">Prompt (use {placeholders} for parts you fill in each time)</label><textarea id="r-body" rows="16">${esc(p.body)}</textarea>
+      <div class="count" id="r-ph"></div></div>
+    <div class="field"><label for="r-notes">Notes</label><textarea id="r-notes" rows="2" style="min-height:0">${esc(p.notes)}</textarea></div>
+    ${p.id ? `<p class="muted small">Version ${p.version}${p.last_used_at ? ` · last used ${whenLabel(p.last_used_at)}` : ""}</p><div id="r-hist"></div>` : ""}
+  </form>`, `<button class="btn primary" data-act="save-prompt" data-id="${p.id || ""}">Save</button>
+    ${p.id ? `<button class="btn" data-act="copy-prompt" data-id="${p.id}">Copy</button><button class="btn" data-act="prompt-history" data-id="${p.id}">History</button>
+    <button class="btn danger spacer" data-act="delete-prompt" data-id="${p.id}">Delete</button>` : ""}`);
+  const ph = () => { $("#r-ph").textContent = "Placeholders: " + (placeholders($("#r-body").value).join(" ") || "none"); };
+  $("#r-body").addEventListener("input", ph); ph();
+}
+
+async function copyText(text) {
+  try { await navigator.clipboard.writeText(text); return true; }
+  catch { const t = document.createElement("textarea"); t.value = text; document.body.append(t); t.select();
+    const ok = document.execCommand("copy"); t.remove(); return ok; }
+}
+
+async function copyPrompt(id, fill = {}) {
+  const p = S.prompts.find((x) => x.id === id);
+  let body = p.body;
+  for (const [k, v] of Object.entries(fill)) body = body.replaceAll(`{${k}}`, v);
+  if (await copyText(body.trim())) toast(`Copied “${p.name}”`); else toast("Copy failed", "err");
+  await sb.from("prompts").update({ last_used_at: new Date().toISOString() }).eq("id", id);
+  p.last_used_at = new Date().toISOString();
+}
+
+// ---- import week plan ------------------------------------------------------------------------
+function openImport() {
+  modal("Import week plan", `<p class="small">Paste the JSON from the “Weekly content plan” prompt, or choose a file from <code>content/plans/</code>.
+    Every post arrives as a <strong>draft</strong>; nothing is published until you approve it.</p>
+    <div class="field"><input type="file" id="imp-file" accept="application/json,.json"></div>
+    <div class="field"><textarea id="imp-text" rows="12" placeholder='{"week_start": "…", "ideas": [...], "posts": [...]}'></textarea></div>
+    <div id="imp-check"></div>`,
+    `<button class="btn" data-act="import-check">Check</button><button class="btn primary" data-act="import-run" disabled id="imp-run">Import</button>`);
+  $("#imp-file").onchange = async (e) => { $("#imp-text").value = await e.target.files[0].text(); checkImport(); };
+  $("#imp-text").addEventListener("input", () => { $("#imp-run").disabled = true; });
+}
+
+let IMPORT = null;
+function checkImport() {
+  IMPORT = null; $("#imp-run").disabled = true;
+  const out = $("#imp-check");
+  let plan;
+  try { plan = JSON.parse($("#imp-text").value); } catch (e) { out.innerHTML = `<div class="alert bad">Not valid JSON: ${esc(e.message)}</div>`; return; }
+  const ideas = Array.isArray(plan.ideas) ? plan.ideas : [], posts = Array.isArray(plan.posts) ? plan.posts : [];
+  const errs = [], keys = new Set(ideas.map((i) => i.key));
+  ideas.forEach((i, n) => { if (!i.title) errs.push(`idea ${n + 1}: no title`); if (i.format && !IDEA_FORMATS[i.format]) errs.push(`idea ${n + 1}: bad format ${i.format}`); });
+  posts.forEach((p, n) => {
+    if (!p.title) errs.push(`post ${n + 1}: no title`);
+    if (isNaN(Date.parse(p.scheduled_at))) errs.push(`post ${n + 1}: bad scheduled_at`);
+    if (!FORMATS[p.format]) errs.push(`post ${n + 1}: bad format ${p.format}`);
+    if (p.idea && !keys.has(p.idea)) errs.push(`post ${n + 1}: unknown idea key ${p.idea}`);
+  });
+  if (errs.length) { out.innerHTML = `<div class="alert bad">${errs.map(esc).join("<br>")}</div>`; return; }
+  const dupPost = (p) => S.posts.some((x) => x.title === p.title && Date.parse(x.scheduled_at) === Date.parse(p.scheduled_at));
+  const dupIdea = (i) => S.ideas.some((x) => x.title === i.title);
+  const newPosts = posts.filter((p) => !dupPost(p)), newIdeas = ideas.filter((i) => !dupIdea(i));
+  const missing = [...new Set(newPosts.flatMap((p) => p.media || []).filter((m) => !S.media.includes(m)))];
+  const past = newPosts.filter((p) => Date.parse(p.scheduled_at) < Date.now()).length;
+  IMPORT = { ideas, posts, newPosts, newIdeas };
+  out.innerHTML = `<div class="alert ok">${newIdeas.length} new ideas, ${newPosts.length} new draft posts${posts.length - newPosts.length ? ` (${posts.length - newPosts.length} already imported, skipped)` : ""}.</div>
+    ${missing.length ? `<div class="alert warn">Upload these in Media before approving: ${missing.map(esc).join(", ")}</div>` : ""}
+    ${past ? `<div class="alert warn">${past} post(s) are dated in the past. Change their dates before approving.</div>` : ""}`;
+  $("#imp-run").disabled = !newPosts.length && !newIdeas.length;
+}
+
+async function runImport() {
+  if (!IMPORT) return;
+  const { ideas, posts, newIdeas, newPosts } = IMPORT;
+  const withPost = new Set(posts.map((p) => p.idea));
+  const idByKey = {};
+  for (const i of ideas) { const ex = S.ideas.find((x) => x.title === i.title); if (ex) idByKey[i.key] = ex.id; }
+  if (newIdeas.length) {
+    const rows = newIdeas.map((i) => ({ title: i.title, hook: i.hook || null, caption: i.caption || null, format: i.format || "image",
+      language: LANGS[i.language] ? i.language : "en", book: i.book || null, pillar: i.pillar || null, notes: i.notes || null,
+      status: withPost.has(i.key) ? "scheduled" : "idea" }));
+    const { data, error } = await sb.from("ideas").insert(rows).select("id,title");
+    if (error) throw error;
+    newIdeas.forEach((i) => { idByKey[i.key] = data.find((d) => d.title === i.title)?.id; });
+  }
+  if (newPosts.length) {
+    const rows = newPosts.map((p) => ({ title: p.title, caption: p.caption || "", hashtags: p.hashtags || "", format: p.format,
+      media: p.media || [], platforms: (p.platforms || ["facebook", "instagram"]).filter((x) => ["facebook", "instagram"].includes(x)),
+      scheduled_at: new Date(p.scheduled_at).toISOString(), idea_id: idByKey[p.idea] ?? null, status: "draft" }));
+    const { error } = await sb.from("posts").insert(rows);
+    if (error) throw error;
+  }
+  toast(`Imported ${newIdeas.length} ideas and ${newPosts.length} posts as drafts`);
+  closeModal(); await loadAll(); S.tab = "week"; render();
+}
+
+// ---- events -----------------------------------------------------------------------------------
+document.addEventListener("click", async (e) => {
+  const tab = e.target.closest("[data-tab]");
+  if (tab) { S.tab = tab.dataset.tab; render(); return; }
+  const el = e.target.closest("[data-act]");
+  if (!el || el.tagName === "SELECT" || el.tagName === "INPUT") return;
+  const a = el.dataset.act, id = el.dataset.id;
+  try {
+    switch (a) {
+      case "close": closeModal(); break;
+      case "logout": await sb.auth.signOut(); location.reload(); break;
+      case "check": {
+        toast("Checking Meta connection…");
+        const { data, error } = await sb.functions.invoke("publish-due", { body: { action: "check" } });
+        if (error) throw error;
+        if (data.ok) toast(`Connected: Facebook Page “${data.facebook.name}” and Instagram @${data.instagram.username}`);
+        else toast("Meta connection failed: " + data.error, "err");
+        break;
+      }
+      case "week-nav": S.weekStart = el.dataset.d === "0" ? mondayOf(today()) : addDays(S.weekStart, +el.dataset.d); render(); break;
+      case "sched-view": S.schedView = el.dataset.v; render(); break;
+      case "new-post": openPost({ date: el.dataset.date }); break;
+      case "open-post": openPost(S.posts.find((p) => p.id === id)); break;
+      case "pick": {
+        const n = el.dataset.n, i = ED.sel.indexOf(n), fmt = $("#f-format").value;
+        if (i >= 0) ED.sel.splice(i, 1);
+        else if (fmt === "carousel") { if (ED.sel.length < 10) ED.sel.push(n); }
+        else ED.sel = [n];
+        refreshPost(); break;
+      }
+      case "slide": ED.slide = (ED.slide + +el.dataset.d + ED.sel.length) % ED.sel.length; refreshPost(); break;
+      case "save-post": { const d = await savePost(); toast("Saved"); await loadAll(); render(); openPost(d); break; }
+      case "approve-post": { const d = await approvePost(); if (d) { toast("Approved. It will post automatically at " + whenLabel(d.scheduled_at)); closeModal(); await loadAll(); render(); } break; }
+      case "publish-now": {
+        if (!confirm("Publish this post to " + readPost().platforms.join(" and ") + " right now?")) break;
+        const d = ED.post.status === "approved" ? ED.post : await approvePost(true);
+        if (!d) break;
+        toast("Publishing… this can take up to a minute");
+        const { data, error } = await sb.functions.invoke("publish-due", { body: { post_id: d.id } });
+        if (error) throw error;
+        const r = data.processed?.[0];
+        toast(r ? (r.status === "posted" ? "Published" : `Status: ${r.status}${r.error ? " – " + r.error : ""}`) : "Nothing was published (is it approved?)", r?.status === "posted" ? "" : "err");
+        closeModal(); await loadAll(); render(); break;
+      }
+      case "unapprove-post": await setPost({ status: "draft", approved_at: null, approved_by: null }, "Back to draft"); break;
+      case "retry-post": { const d = await approvePost(true); if (d) { await sb.from("posts").update({ attempts: 0 }).eq("id", d.id); toast("Queued for retry within 5 minutes"); closeModal(); await loadAll(); render(); } break; }
+      case "cancel-post": if (confirm("Cancel this post? It will not be published.")) await setPost({ status: "cancelled" }, "Cancelled"); break;
+      case "restore-post": await setPost({ status: "draft" }, "Restored as draft"); break;
+      case "delete-post": if (confirm("Delete this post for good?")) { const { error } = await sb.from("posts").delete().eq("id", ED.post.id); if (error) throw error; toast("Deleted"); closeModal(); await loadAll(); render(); } break;
+      case "duplicate-post": { const { id: _i, status: _s, fb_post_id, fb_url, ig_media_id, ig_url, ig_container_id, published_at, error: _e, attempts, ...rest } = ED.post; openPost({ ...rest, scheduled_at: undefined, date: addDays(today(), 1), title: rest.title + " (copy)" }); break; }
+
+      case "new-idea": openIdea({}); break;
+      case "open-idea": e.preventDefault(); openIdea(S.ideas.find((i) => i.id === id)); break;
+      case "save-idea": { await saveIdea(id || null); toast("Idea saved"); closeModal(); await loadAll(); render(); break; }
+      case "delete-idea": if (confirm("Delete this idea? Posts made from it stay.")) { const { error } = await sb.from("ideas").delete().eq("id", id); if (error) throw error; closeModal(); await loadAll(); render(); } break;
+      case "idea-status": { const { error } = await sb.from("ideas").update({ status: el.dataset.s }).eq("id", id); if (error) throw error; await loadAll(); render(); break; }
+      case "idea-to-post": {
+        const idea = dlg.open && $("#if") ? await saveIdea(id || null) : S.ideas.find((i) => i.id === id);
+        await loadAll(); render(); ideaToPost(idea); break;
+      }
+      case "import": openImport(); break;
+      case "import-check": checkImport(); break;
+      case "import-run": el.disabled = true; await runImport(); break;
+
+      case "new-prompt": openPrompt({}); break;
+      case "open-prompt": openPrompt(S.prompts.find((p) => p.id === id)); break;
+      case "copy-prompt": await copyPrompt(id); break;
+      case "save-prompt": {
+        const row = { name: $("#r-name").value.trim() || "Untitled prompt", category: $("#r-cat").value, body: $("#r-body").value,
+          notes: $("#r-notes").value || null, favourite: $("#r-fav").checked };
+        const { error } = await (id ? sb.from("prompts").update(row).eq("id", id) : sb.from("prompts").insert(row));
+        if (error) throw error;
+        toast("Prompt saved"); closeModal(); await loadAll(); render(); break;
+      }
+      case "delete-prompt": if (confirm("Delete this prompt and its history?")) { const { error } = await sb.from("prompts").delete().eq("id", id); if (error) throw error; closeModal(); await loadAll(); render(); } break;
+      case "prompt-history": {
+        const { data, error } = await sb.from("prompt_versions").select("*").eq("prompt_id", id).order("version", { ascending: false });
+        if (error) throw error;
+        $("#r-hist").innerHTML = data.length ? data.map((v) => `<div class="field"><div class="row"><strong style="font-weight:500">Version ${v.version}</strong>
+          <span class="muted small">${whenLabel(v.created_at)}</span><button class="btn small spacer" data-act="restore-version" data-v="${v.id}">Put back into editor</button></div>
+          <pre class="body">${esc(v.body)}</pre></div>`).join("") : `<p class="muted small">No earlier versions.</p>`;
+        $("#r-hist")._versions = data; break;
+      }
+      case "restore-version": { const v = $("#r-hist")._versions.find((x) => String(x.id) === el.dataset.v); $("#r-body").value = v.body; $("#r-body").dispatchEvent(new Event("input")); toast("Loaded into the editor. Press Save to keep it."); break; }
+      case "copy-plan-prompt": {
+        const p = S.prompts.find((x) => x.category === "weekly_plan");
+        if (!p) { toast("No weekly plan prompt yet. Run the prompt-library seed.", "err"); break; }
+        const recent = S.posts.filter((x) => x.status !== "cancelled").slice(-14).map((x) => `${istDate(x.scheduled_at)} ${x.title}`).join("; ");
+        await copyPrompt(p.id, { week_start: addDays(mondayOf(today()), 7), recent_posts: recent || "none yet", media_files: S.media.join(", ") || "none uploaded", language: "English" });
+        break;
+      }
+
+      case "copy-url": if (await copyText(mediaUrl(el.dataset.n))) toast("URL copied"); break;
+      case "del-media": {
+        const n = el.dataset.n, used = S.posts.filter((p) => p.media.includes(n) && ["draft", "approved"].includes(p.status)).length;
+        if (!confirm(used ? `${used} upcoming post(s) use ${n}. Delete anyway?` : `Delete ${n}?`)) break;
+        const { error } = await sb.storage.from(BUCKET).remove([n]); if (error) throw error;
+        await loadAll(); render(); break;
+      }
+    }
+  } catch (err) { fail(err); }
+});
+
+document.addEventListener("input", (e) => {
+  const a = e.target.dataset?.act;
+  if (a === "idea-q") { S.ideaFilter.q = e.target.value; rerenderKeepFocus(); }
+  if (a === "prompt-q") { S.promptFilter.q = e.target.value; rerenderKeepFocus(); }
+});
+document.addEventListener("change", (e) => {
+  const a = e.target.dataset?.act;
+  if (a === "idea-f") { S.ideaFilter[e.target.dataset.k] = e.target.value; render(); }
+  if (a === "prompt-cat") { S.promptFilter.cat = e.target.value; render(); }
+  if (a === "post-filter") { S.postFilter = e.target.value; render(); }
+  if (e.target.id === "f-format" && ED) {   // keep the media selection valid for the new format
+    if (e.target.value !== "carousel" && ED.sel.length > 1) ED.sel = ED.sel.slice(0, 1);
+    refreshPost();
+  }
+});
+function rerenderKeepFocus() {
+  const act = document.activeElement?.dataset?.act, pos = document.activeElement?.selectionStart;
+  render();
+  const el = act && $(`[data-act="${act}"]`);
+  if (el) { el.focus(); el.setSelectionRange(pos, pos); }
+}
+dlg.addEventListener("close", () => { ED = null; });
+</script>
+</body>
+</html>
