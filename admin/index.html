@@ -204,9 +204,10 @@ const addDays = (ymd, n) => { const d = new Date(ymd + "T12:00:00Z"); d.setUTCDa
 const mondayOf = (ymd) => addDays(ymd, -((new Date(ymd + "T12:00:00Z").getUTCDay() + 6) % 7));
 const dayLabel = (ymd) => new Date(ymd + "T12:00:00+05:30").toLocaleDateString("en-IN", { timeZone: TZ, weekday: "short", day: "numeric", month: "short" });
 const whenLabel = (iso) => `${dayLabel(istDate(iso))} · ${istTime(iso)}`;
-const mediaUrl = (n) => `${CONFIG.supabaseUrl}/storage/v1/object/public/${BUCKET}/${n.split("/").map(encodeURIComponent).join("/")}`;
-const isVideo = (n) => /\.(mp4|mov)$/i.test(n);
-const isJpeg = (n) => /\.jpe?g$/i.test(n);
+const isUrl = (n) => /^https:\/\//i.test(n);
+const mediaUrl = (n) => isUrl(n) ? n : `${CONFIG.supabaseUrl}/storage/v1/object/public/${BUCKET}/${n.split("/").map(encodeURIComponent).join("/")}`;
+const isVideo = (n) => /\.(mp4|mov)(\?.*)?$/i.test(n);
+const isJpeg = (n) => /\.jpe?g(\?.*)?$/i.test(n);
 const fullCaption = (p) => [(p.caption || "").trim(), (p.hashtags || "").trim()].filter(Boolean).join("\n\n");
 const tagCount = (s) => (s.match(/#[\p{L}\p{N}_]+/gu) || []).length;
 const opts = (obj, sel) => Object.entries(obj).map(([v, l]) => `<option value="${v}"${v === sel ? " selected" : ""}>${esc(l)}</option>`).join("");
@@ -304,7 +305,7 @@ function render() {
 }
 
 // ---- shared bits ----------------------------------------------------------------------------
-const missingMedia = (p) => p.media.filter((m) => !S.media.includes(m));
+const missingMedia = (p) => p.media.filter((m) => !isUrl(m) && !S.media.includes(m));
 const livePosts = () => S.posts.filter((p) => p.status !== "cancelled");
 
 function postCard(p) {
