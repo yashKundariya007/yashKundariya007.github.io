@@ -272,6 +272,24 @@ footer{padding-block:48px 120px;font-size:.84rem;color:var(--muted)}
 .quick{padding:40px 0 8px}.quick-list{list-style:none;margin:0 auto;padding:0;max-width:720px;display:grid;gap:12px}.quick-list li{display:flex;align-items:center;gap:16px;background:linear-gradient(135deg,#6B3A5E,#4E2744);color:#FFF8F2;border-radius:16px;padding:16px 20px;font-size:1.02rem;line-height:1.4;box-shadow:0 14px 26px -16px rgba(78,39,68,.7)}.quick-list li b{color:#E8C98E;font-weight:600;font-variant-numeric:tabular-nums}.quick-list .ck{flex:0 0 34px;height:34px;border-radius:50%;background:#E8C98E;display:grid;place-items:center}.quick-cta{text-align:center;margin-top:22px}@media (max-width:520px){.quick-list li{font-size:.95rem;padding:14px 16px;gap:12px}}
 .h1like{font-size:clamp(2.1rem,5vw,3.4rem);letter-spacing:-.01em}.tf{padding:34px 0 8px;text-align:center}.tf-h{font-family:'Poppins',sans-serif;font-weight:700;text-transform:uppercase;color:var(--plum);font-size:clamp(1.55rem,4.6vw,2.9rem);line-height:1.15;letter-spacing:-.005em;max-width:900px;margin:0 auto}.tf-h span{color:var(--rose)}.tf-sub{color:var(--muted);font-size:clamp(.98rem,2.4vw,1.15rem);max-width:640px;margin:14px auto 22px}.tf-banner-link{display:block;max-width:980px;margin:0 auto;border-radius:22px;box-shadow:0 26px 50px -26px rgba(78,39,68,.55);overflow:hidden}.tf-banner{width:100%;height:auto}.quick{padding:28px 0 4px}.tf-offer-sec{padding:18px 0 44px}.tf-offer{max-width:720px;margin:0 auto;text-align:center;background:var(--blush-soft);border:1.5px dashed var(--rose);border-radius:22px;padding:22px 18px;display:grid;gap:14px;justify-items:center}.tf-offer-t{margin:0;font-size:clamp(1rem,2.6vw,1.2rem);color:var(--ink);font-weight:500}.tf-offer-t .tag{display:inline-block;background:var(--plum);color:#fff;font-size:.72rem;letter-spacing:.14em;padding:5px 12px;border-radius:999px;margin-right:6px;vertical-align:2px}.tf-offer-t b{color:var(--rose)}.tf-offer-off{margin:0;color:var(--muted)}.tf-btn{font-size:1.05rem}
 html{scroll-padding-top:64px}
+/* ===== Free daily activities (Telegram) ===== */
+.free-daily{padding-top:0}
+.fd-card{display:grid;grid-template-columns:1.1fr .9fr;gap:36px;align-items:center;background:var(--paper);border:1px solid var(--line);border-radius:28px;padding:40px 38px;box-shadow:0 24px 50px -36px rgba(78,39,68,.35)}
+.fd-text{display:grid;gap:14px;align-content:start}
+.fd-text h2{color:var(--plum)}
+.fd-text p{margin:0}
+.fd-langs{display:flex;flex-wrap:wrap;gap:8px}
+.fd-langs span{font-size:.82rem;border:1px solid var(--blush);border-radius:999px;padding:4px 12px;color:var(--plum);background:var(--blush-soft)}
+a.btn-tg{display:inline-flex;justify-self:start;background:#229ED9;color:#fff;box-shadow:0 10px 24px -12px rgba(34,158,217,.7)}
+a.btn-tg:hover{transform:translateY(-1px)}
+.fd-note{font-size:.84rem;color:var(--muted)}
+.fd-senses{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+.fd-senses li{display:grid;grid-template-columns:44px 1fr;align-items:center;gap:2px 12px;background:var(--cream);border:1px solid var(--line);border-radius:16px;padding:10px 14px}
+.fd-senses .ic{grid-row:span 2;width:44px;height:44px;border-radius:50%;display:grid;place-items:center;background:var(--blush-soft);font-size:1.3rem}
+.fd-senses b{font-weight:500;color:var(--plum);font-size:.95rem}
+.fd-senses small{color:var(--muted);font-size:.82rem}
+.fd-example{font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;color:var(--sage-deep);margin:0 0 2px 4px}
+@media (max-width:820px){.fd-card{grid-template-columns:1fr;padding:28px 20px;gap:24px}a.btn-tg{justify-self:stretch}}
 </style>
 
 <!-- ===== Lotus symbol, reused everywhere ===== -->
@@ -525,6 +543,32 @@ html{scroll-padding-top:64px}
   </div>
 </section>
 
+<!-- ===== FREE DAILY ACTIVITIES (Telegram bot) ===== -->
+<section class="free-daily" id="free-daily">
+  <div class="wrap">
+    <div class="fd-card">
+      <div class="fd-text">
+        <span class="eyebrow">Free, every morning</span>
+        <h2>5 gentle activities a day, <em>one for each sense</em></h2>
+        <p>Join Garbhamantra Daily on Telegram and get five simple activities every morning: one each for sight, sound, touch, smell and taste. Each takes 15 minutes or less, at home, with things you already have.</p>
+        <div class="fd-langs" aria-label="Languages"><span>English</span><span lang="hi">हिंदी</span><span lang="gu">ગુજરાતી</span></div>
+        <a class="btn btn-tg" href="https://t.me/Garbhmantra_Daily_Activities_bot" target="_blank" rel="noopener">Join free on Telegram</a>
+        <p class="fd-note">Free. No payment and no form to fill. Send /stop any time to leave. <a href="/privacy/">Privacy</a></p>
+      </div>
+      <div>
+        <p class="fd-example">An example morning</p>
+        <ul class="fd-senses">
+          <li><span class="ic" aria-hidden="true">👁️</span><b>Sight · Colour hunt</b><small>Find 10 things in one soft colour, sketch your 3 favourites</small></li>
+          <li><span class="ic" aria-hidden="true">👂</span><b>Sound · Colour music</b><small>Play a calm song and picture the colour of each part</small></li>
+          <li><span class="ic" aria-hidden="true">✋</span><b>Touch · Texture rubbing</b><small>Rub a crayon over paper on a leaf or a coin</small></li>
+          <li><span class="ic" aria-hidden="true">👃</span><b>Smell · Spice colours</b><small>Haldi, jeera and elaichi, smelled one at a time</small></li>
+          <li><span class="ic" aria-hidden="true">👅</span><b>Taste · Rainbow plate</b><small>Three colours of fruit, one slow bite at a time</small></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- ===== WHO IT'S FOR ===== -->
 <section style="padding-top:0">
   <div class="wrap">
@@ -625,6 +669,7 @@ html{scroll-padding-top:64px}
     <div class="faq">
       <details><summary>What exactly will I receive?</summary><p>Seven A4 PDF books with 514 pages in total: Maze &amp; Path Challenges, Sudoku &amp; Logic Puzzles, Memory &amp; Matching, Mandala Colouring Vol 1 to 3 and Blooming Letters. At checkout you can add Brain &amp; Bonding (95+ activities, 100 pages) for <span data-bonding>₹149</span>.</p></details>
       <details><summary>How does the free bonus work?</summary><p>When you first visit, you get 90 minutes to order with the Bhagavad Gita for Pregnancy book included free. The timer is yours and does not restart if you refresh. After it ends, the 7-book bundle stays at the same price and the Gita book is available as an optional add-on at checkout.</p></details>
+      <details><summary>Is anything free?</summary><p>Yes. Join <a href="https://t.me/Garbhmantra_Daily_Activities_bot" target="_blank" rel="noopener">Garbhamantra Daily on Telegram</a> and get 5 gentle activities every morning, one for each sense, in English, हिंदी and ગુજરાતી. It's free, and you can leave any time by sending /stop.</p></details>
       <details><summary>Is this a physical book?</summary><p>No. It's a digital download, so you can start today. Print the pages at home or at a local print shop, or use them on a tablet.</p></details>
       <details><summary>Which trimester is it for?</summary><p>All three. Start whenever you like. Many mothers keep going after the baby arrives, during quiet feeding hours.</p></details>
       <details><summary>Do I need to be good at puzzles or drawing?</summary><p>Not at all. Every book starts gentle and grows slowly. There is no right or wrong way to colour.</p></details>
